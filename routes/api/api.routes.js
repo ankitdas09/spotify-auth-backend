@@ -1,3 +1,9 @@
+// File for spotify API Requests
+
+// **********
+// CURRENTLY EMPTY 
+// **********
+
 const router = require('express').Router()
 const { isLoggedIn } = require('../../middleware/isLoggedIn')
 
