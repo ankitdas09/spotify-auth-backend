@@ -42,7 +42,7 @@ router.get('/spotify', passport.authenticate('spotify', {
 router.get('/spotify/callback',
     passport.authenticate('spotify', {
         failureRedirect: "/auth/error",
-        successRedirect: "http://localhost:3000/"
+        successRedirect: "http://localhost:8080/"
     })
 )
 

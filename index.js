@@ -9,6 +9,7 @@ require('./utils/passport.utils')
 // routes
 const authRoutes = require('./routes/auth/auth.routes')
 const apiRoutes = require('./routes/api/api.routes')
+const { isLoggedIn } = require('./middleware/isLoggedIn')
 
 // port
 const PORT = process.env.PORT || 5000
@@ -37,7 +38,7 @@ app.use('/api', apiRoutes)
 
 
 // test auth route
-app.get('/', (req, res) => {
+app.get('/', isLoggedIn, (req, res) => {
     // console.log(req.user)
     if (!req.user) {
         res.send('Not logged in')
