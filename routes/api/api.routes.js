@@ -1,12 +1,11 @@
 // File for spotify API Requests
-
 const router = require('express').Router()
 const { isLoggedIn } = require('../../middleware/isLoggedIn')
-
+const { topArtistsDataCleanup, topTracksDataCleanup } = require('../../utils/api.utils')
 const axios = require('axios')
 
 // Get top user's artists 
-// response data : [ {...data}, {}, {}, ...] array of objects
+// [ {}, {}, {}, ...] array of objects
 router.get('/top/artists', isLoggedIn, async (req, res) => {
     const token = `Bearer ${req.user.token}`
     try {
@@ -15,14 +14,16 @@ router.get('/top/artists', isLoggedIn, async (req, res) => {
                 'Authorization': token
             }
         })
-        res.send(response.data.items)
+        const full_data = response.data.items
+        const send_data = topArtistsDataCleanup(full_data)
+        res.send(send_data)
     } catch (error) {
         res.status(403).send(error.message)
     }
 })
 
 // Get top user's tracks 
-// response data : [ {...data}, {}, {}, ...] array of objects
+// [ {}, {}, {}, ...] array of objects
 router.get('/top/tracks', isLoggedIn, async (req, res) => {
     const token = `Bearer ${req.user.token}`
     try {
@@ -31,7 +32,8 @@ router.get('/top/tracks', isLoggedIn, async (req, res) => {
                 'Authorization': token
             }
         })
-        res.send(response.data.items)
+        const send_data = topTracksDataCleanup(response.data.items)
+        res.send(send_data)
     } catch (error) {
         res.status(403).send(error.message)
     }
@@ -48,6 +50,7 @@ router.get('/top/tracks', isLoggedIn, async (req, res) => {
 //     })
 //     res.send(response.data.items)
 // })
+
 
 
 module.exports = router
